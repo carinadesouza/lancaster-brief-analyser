@@ -14,6 +14,7 @@ interface LeftPanelProps {
   fileName: string;
   onFileUpload: (f: File) => void;
   onClearFile: () => void;
+  result: any | null;
   isLoading: boolean;
   error: string | null;
   onAnalyse: () => void;
@@ -28,6 +29,7 @@ export default function LeftPanel({
   fileName,
   onFileUpload,
   onClearFile,
+  result,
   isLoading,
   error,
   onAnalyse,
@@ -63,6 +65,30 @@ export default function LeftPanel({
             onClearFile={onClearFile}
           />
         )}
+        {result && (
+          <div className="px-3.5 py-3 bg-[#fafaf8] border-[1.5px] border-[#e8e5e0] rounded-xl">
+            <p className="text-[10px] font-bold text-[#bbb] uppercase tracking-[0.06em] mb-1.25">
+              Detected module
+            </p>
+            <p className="text-[12px] font-semibold text-[#111] leading-[1.4]">
+              {result.module}
+            </p>
+            {result.author !== "Not specified" && (
+              <p className="text-[11px] text-[#999] mt-0.75">
+                {result.author}
+              </p>
+            )}
+          </div>
+        )}
+
+        {result && !isLoading && (
+          <div className="flex items-center gap-2 px-3 py-2.25 bg-[#f0fdf4] border border-[#bbf7d0] rounded-[10px]">
+            <div className="w-1.75 h-1.75 rounded-full bg-[#22c55e] shrink-0" />
+            <span className="text-[12px] text-[#16a34a] font-medium">
+              Analysis complete
+            </span>
+          </div>
+        )}
         {error && (
           <div className="px-3 py-2.5 bg-[#fef2f2] border border-[#fecaca] rounded-[10px]">
             <p className="text-[12px] text-[#dc2626]">{error}</p>
@@ -82,7 +108,7 @@ export default function LeftPanel({
         >
           {isLoading
             ? "Analysing..."
-            : text.trim()
+            : result
               ? "Re-analyse brief"
               : "Analyse brief now"}
         </button>

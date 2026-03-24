@@ -4,13 +4,15 @@ import Header from "./components/Header";
 import LeftPanel from "./components/LeftPanel";
 import { Tab } from "./components/InputTabs";
 import SkeletonLoader from "./components/SkeletonLoader";
-
+import RightPanelEmptyState from "./components/RightPanelEmptyState";
 export default function Home() {
   const [tab, setTab] = useState<Tab>("paste");
   const [text, setText] = useState("");
   const [fileName, setFileName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<any>(null);
+
   const handleFileUpload = async (file: File) => {
     setFileName(file.name);
     const arrayBuffer = await file.arrayBuffer();
@@ -34,13 +36,14 @@ export default function Home() {
   const handleClearFile = () => {
     setFileName("");
     setText("");
- 
+    setResult(null);
   };
 
   const handleTabChange = (t: Tab) => {
     setTab(t);
     setText("");
     setFileName("");
+    setResult(null);
     setError(null);
   };
 
@@ -60,6 +63,7 @@ export default function Home() {
       if (!res.ok) throw new Error("Request failed");
       const data = await res.json();
       if (data.error) throw new Error(data.error);
+      setResult(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
@@ -83,20 +87,20 @@ export default function Home() {
           fileName={fileName}
           onFileUpload={handleFileUpload}
           onClearFile={handleClearFile}
+          result={result}
           isLoading={isLoading}
           error={error}
           onAnalyse={handleAnalyse}
         />
-
-        <div className="flex-1 overflow-y-auto bg-[#f4f3f0]">
+        {<div className="flex-1 overflow-y-auto bg-[#f4f3f0]">
           {isLoading ? (
             <SkeletonLoader />
+          ) : result ? (
+            <div>Result</div>
           ) : (
-            <div className="flex items-center justify-center h-full text-sm text-gray-400">
-              No data yet
-            </div>
+            <RightPanelEmptyState />
           )}
-        </div>
+        </div> }
       </div>
     </div>
   );
