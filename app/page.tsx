@@ -3,6 +3,7 @@ import { useState } from "react";
 import Header from "./components/Header";
 import LeftPanel from "./components/LeftPanel";
 import { Tab } from "./components/InputTabs";
+import SkeletonLoader from "./components/SkeletonLoader";
 
 export default function Home() {
   const [tab, setTab] = useState<Tab>("paste");
@@ -10,7 +11,6 @@ export default function Home() {
   const [fileName, setFileName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
   const handleFileUpload = async (file: File) => {
     setFileName(file.name);
     const arrayBuffer = await file.arrayBuffer();
@@ -34,6 +34,7 @@ export default function Home() {
   const handleClearFile = () => {
     setFileName("");
     setText("");
+ 
   };
 
   const handleTabChange = (t: Tab) => {
@@ -86,6 +87,16 @@ export default function Home() {
           error={error}
           onAnalyse={handleAnalyse}
         />
+
+        <div className="flex-1 overflow-y-auto bg-[#f4f3f0]">
+          {isLoading ? (
+            <SkeletonLoader />
+          ) : (
+            <div className="flex items-center justify-center h-full text-sm text-gray-400">
+              No data yet
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
