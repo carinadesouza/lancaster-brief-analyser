@@ -1,5 +1,5 @@
 {
-  "name": "lancaster-compass",
+  "name": "lancaster-brief-analyser",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,19 +8,21 @@
     "start": "next start",
     "lint": "eslint"
   },
-  "dependencies": {
-    "next": "16.2.1",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
-  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.1",
+    "@types/react": "^18.3.28",
+    "@types/react-dom": "^18.3.7",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.35",
     "tailwindcss": "^4",
     "typescript": "^5"
+  },
+  "dependencies": {
+    "groq-sdk": "^1.1.1",
+    "next": "^14.2.35",
+    "pdfjs-dist": "^4.4.168",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   }
 }
