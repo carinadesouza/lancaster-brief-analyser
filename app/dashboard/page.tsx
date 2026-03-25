@@ -14,14 +14,13 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
+  const [mobileView, setMobileView] = useState<"input" | "results">("input");
 
-  // Unified text handler (both paste and file upload will use this)
   const handleTextChange = (val: string) => {
     setText(val);
     setResult(null);
   };
 
-  // File Uploading
   const handleFileUpload = async (file: File) => {
     setFileName(file.name);
 
@@ -41,7 +40,6 @@ export default function Dashboard() {
     setResult(null);
   };
 
-  // AI Analysis
   const handleAnalyse = async () => {
     if (!text.trim() || text.trim().length < 50) {
       setError("Please paste your brief or upload a PDF first.");
@@ -77,9 +75,9 @@ export default function Dashboard() {
       if (data.error) throw new Error(data.error);
 
       setResult(data);
+      setMobileView("results");
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Something went wrong.";
-
       if (msg.toLowerCase().includes("rate limit") || msg.includes("429")) {
         setError(
           "We've hit our AI usage limit for now. Please try again in about an hour — it resets automatically.",
@@ -109,7 +107,6 @@ export default function Dashboard() {
 
   const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
 
-  // Step state logic
   const isStep1Complete = text.trim().length > 0;
   const isStep2Complete = isLoading || !!result;
   const isStep3Complete = !!result;
@@ -120,7 +117,30 @@ export default function Dashboard() {
     <div className="flex flex-col h-screen font-['DM_Sans',sans-serif] bg-[#f4f3f0]">
       <Header stepsCompleted={stepsCompleted} />
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex md:hidden shrink-0 bg-white border-b border-[#e8e5e0]">
+        <button
+          onClick={() => setMobileView("input")}
+          className={`flex-1 py-2.5 text-[13px] font-semibold transition-colors ${
+            mobileView === "input"
+              ? "text-[#C8102E] border-b-2 border-[#C8102E]"
+              : "text-[#aaa]"
+          }`}
+        >
+          Input
+        </button>
+        <button
+          onClick={() => setMobileView("results")}
+          className={`flex-1 py-2.5 text-[13px] font-semibold transition-colors ${
+            mobileView === "results"
+              ? "text-[#C8102E] border-b-2 border-[#C8102E]"
+              : "text-[#aaa]"
+          }`}
+        >
+          Results
+        </button>
+      </div>
+
+      <div className="hidden md:flex flex-1 overflow-hidden">
         <LeftPanel
           tab={tab}
           onTabChange={handleTabChange}
@@ -146,6 +166,39 @@ export default function Dashboard() {
           )}
         </div>
       </div>
+
+      <div className="flex md:hidden flex-1 overflow-hidden">
+        {mobileView === "input" ? (
+          <div className="flex flex-col w-full overflow-hidden">
+            <LeftPanel
+              tab={tab}
+              onTabChange={handleTabChange}
+              text={text}
+              onTextChange={handleTextChange}
+              wordCount={wordCount}
+              fileName={fileName}
+              onFileUpload={handleFileUpload}
+              onClearFile={handleClearFile}
+              result={result}
+              isLoading={isLoading}
+              error={error}
+              onAnalyse={handleAnalyse}
+            />
+          </div>
+        ) : (
+          <div className="flex-1 overflow-y-auto bg-[#f4f3f0]">
+            {isLoading ? (
+              <SkeletonLoader />
+            ) : result ? (
+              <ResultsDashboard result={result} />
+            ) : (
+              <RightPanelEmptyState />
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
+
+

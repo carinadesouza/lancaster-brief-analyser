@@ -1,7 +1,8 @@
-"use client"
+"use client";
 
 import React, { useRef, useState } from "react";
 import { CheckCircle, X } from "lucide-react";
+
 interface DropzoneProps {
   fileName: string;
   onFileUpload: (file: File) => void;
@@ -47,7 +48,7 @@ export default function Dropzone({
         </div>
         <button
           onClick={onClearFile}
-          className="flex items-center justify-center text-[#ccc] hover:text-[#999] transition-colors"
+          className="flex items-center justify-center text-[#ccc] hover:text-[#999] transition-colors p-1"
         >
           <X className="w-4 h-4" />
         </button>
@@ -64,8 +65,10 @@ export default function Dropzone({
         setDragOver(true);
       }}
       onDragLeave={() => setDragOver(false)}
-      className={`rounded-[14px] py-8 px-5 flex flex-col items-center gap-2.5 cursor-pointer transition-all duration-150 border-2 border-dashed ${
-        dragOver ? "border-[#C8102E] bg-[#fef8f8]" : "border-[#ddd9d2] bg-[#fafaf8]"
+      className={`rounded-[14px] py-10 sm:py-8 px-5 flex flex-col items-center gap-2.5 cursor-pointer transition-all duration-150 border-2 border-dashed ${
+        dragOver
+          ? "border-[#C8102E] bg-[#fef8f8]"
+          : "border-[#ddd9d2] bg-[#fafaf8]"
       }`}
     >
       <div className="w-10 h-10 rounded-[10px] bg-[#f0ece6] flex items-center justify-center">
@@ -87,7 +90,7 @@ export default function Dropzone({
       </div>
       <div className="text-center">
         <p className="text-[13px] font-medium text-[#444]">Drop PDF here</p>
-        <p className="text-[11px] text-[#bbb] mt-0.75">or click to browse</p>
+        <p className="text-[11px] text-[#bbb] mt-0.75">or tap to browse</p>
       </div>
       <input
         ref={fileRef}

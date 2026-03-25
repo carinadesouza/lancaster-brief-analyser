@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+
 interface HeaderProps {
   stepsCompleted?: boolean[];
 }
@@ -13,9 +14,9 @@ export default function Header({
   ];
 
   return (
-    <header className="flex items-center px-5 gap-2.5 h-13 bg-white border-b border-[#e8e5e0] shrink-0">
-      {/* Logo / Title */}
-      <div className="flex items-center gap-3">
+    <header className="flex items-center px-4 md:px-5 gap-2.5 h-13 bg-white border-b border-[#e8e5e0] shrink-0">
+      {/* Logo and Title */}
+      <div className="flex items-center gap-3 shrink-0">
         <div className="w-7.5 h-7.5 rounded-lg bg-[#C8102E] flex items-center justify-center shrink-0">
           <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
             <path
@@ -34,16 +35,19 @@ export default function Header({
           </svg>
         </div>
         <div>
-          <p className="text-[13px] font-semibold text-[#111] tracking-[-0.01em]">
+          <p className="text-[13px] font-semibold text-[#111] tracking-[-0.01em] leading-tight">
             Assignment Brief Analyser
           </p>
-          <p className="text-[11px] text-[#aaa]">Lancaster University</p>
+          <p className="hidden sm:block text-[11px] text-[#aaa]">
+            Lancaster University
+          </p>
         </div>
       </div>
 
-      {/* Steps (static, no logic) */}
+      {/* Steps */}
       <div className="ml-auto flex items-center">
-        <div className="w-px h-5 bg-[#e8e5e0] mr-5 shrink-0" />
+        <div className="w-px h-5 bg-[#e8e5e0] mr-3 md:mr-5 shrink-0" />
+
         {steps.map((step, i) => {
           const isCompleted = stepsCompleted[i];
           const isActive =
@@ -51,11 +55,11 @@ export default function Header({
 
           return (
             <div key={i} className="flex items-center">
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1 md:gap-1.5">
                 <div
                   className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-all duration-300 ${
                     isCompleted
-                      ? "bg-[#22c55e] border border-[#22c55e]"
+                      ? "bg-[#87bf9c] border border-[#22c55e]"
                       : isActive
                         ? "bg-[#f4f3f0] border border-[#C8102E]"
                         : "bg-[#f4f3f0] border border-[#e0ddd8]"
@@ -81,14 +85,9 @@ export default function Header({
                     </span>
                   )}
                 </div>
-
                 <span
-                  className={`text-[11.5px] font-semibold whitespace-nowrap transition-colors duration-300 ${
-                    isCompleted
-                      ? "text-[#22c55e]"
-                      : isActive
-                        ? "text-[#111]"
-                        : "text-[#aaa]"
+                  className={`hidden md:inline text-[11.5px] font-semibold whitespace-nowrap transition-colors duration-300 ${
+                    isCompleted || isActive ? "text-[#111]" : "text-[#aaa]"
                   }`}
                 >
                   {step.label}
@@ -96,11 +95,7 @@ export default function Header({
               </div>
 
               {i < steps.length - 1 && (
-                <ArrowRight
-                  className={`w-3 h-3 mx-2.5 transition-colors duration-300 ${
-                    isCompleted ? "text-[#86efac]" : "text-[#ddd]"
-                  }`}
-                />
+                <ArrowRight className="w-3 h-3 mx-1.5 md:mx-2.5 text-[#8e8e8e] shrink-0" />
               )}
             </div>
           );

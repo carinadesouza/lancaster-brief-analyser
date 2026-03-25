@@ -35,15 +35,14 @@ export default function LeftPanel({
   onAnalyse,
 }: LeftPanelProps) {
   return (
-    <div className="w-72 shrink-0 bg-white border-r border-[#e8e5e0] flex flex-col">
+    <div className="w-full md:w-105 shrink-0 bg-white md:border-r border-[#e8e5e0] flex flex-col">
       {/* Header */}
-      <div className="px-5 pt-4.5 pb-3.5 border-b border-[#f0ece6]">
+      <div className="hidden md:block px-5 pt-4.5 pb-3.5 border-b border-[#f0ece6]">
         <p className="text-[13px] font-semibold text-[#111] mb-0.5">Input</p>
         <p className="text-[11px] text-[#aaa]">Paste text or upload a PDF</p>
       </div>
 
-      {/* Content */}
-      <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-3.5">
+      <div className="flex-1 overflow-y-auto px-4 sm:px-5 py-4 flex flex-col gap-3.5">
         <InputTabs tab={tab} onTabChange={onTabChange} />
 
         {tab === "paste" && (
@@ -52,7 +51,7 @@ export default function LeftPanel({
               value={text}
               onChange={(e) => onTextChange(e.target.value)}
               placeholder="Paste your assignment brief here..."
-              className="w-full min-h-75 px-4 py-4 text-[13px] leading-[1.7] text-[#333] bg-[#fafaf8] border border-[#e8e5e0] rounded-xl outline-none resize-y font-sans transition-all focus:border-[#C8102E] focus:bg-white"
+              className="w-full min-h-70 sm:min-h-75 px-4 py-4 text-[13px] leading-[1.7] text-[#333] bg-[#fafaf8] border border-[#e8e5e0] rounded-xl outline-none resize-y font-sans transition-all focus:border-[#C8102E] focus:bg-white"
             />
             <p className="text-[11px] text-[#bbb] text-right">
               {wordCount} words
@@ -85,9 +84,7 @@ export default function LeftPanel({
               )}
               {result.author && result.author !== "Not specified" && (
                 <p
-                  className={`text-[11px] text-[#999] ${
-                    result.module ? "mt-1" : ""
-                  }`}
+                  className={`text-[11px] text-[#999] ${result.module ? "mt-1" : ""}`}
                 >
                   {result.author}
                 </p>
@@ -104,11 +101,11 @@ export default function LeftPanel({
       </div>
 
       {/* Footer Button */}
-      <div className="px-5 py-3.5 border-t border-[#f0ece6]">
+      <div className="px-4 sm:px-5 py-3.5 border-t border-[#f0ece6]">
         <button
           onClick={onAnalyse}
           disabled={isLoading || !text.trim()}
-          className={`w-full py-3 text-[13px] font-semibold text-white rounded-[10px] tracking-[-0.01em] transition-all ${
+          className={`w-full py-3.5 sm:py-3 text-[13px] font-semibold text-white rounded-[10px] tracking-[-0.01em] transition-all ${
             isLoading || !text.trim()
               ? "bg-[#f0a0a0] cursor-not-allowed"
               : "bg-[#C8102E] hover:opacity-90 cursor-pointer"

@@ -46,20 +46,16 @@ export default function ResultsDashboard({
   result: AnalysisResult;
 }) {
   return (
-    <div className="p-6 flex flex-col gap-4">
-
-      {/* Header Banner, Submission Requirements and Tasks List */}
+    <div className="p-4 sm:p-6 flex flex-col gap-4">
       <HeaderBanner result={result} />
       <SubmissionRequirements requirements={result.submissionRequirements} />
       <TasksList tasks={result.tasks} />
-
-      {/* Marking criteria and SuggestedStructure */}
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <MarkingCriteria criteria={result.markingCriteria} />
         <SuggestedStructure structure={result.suggestedStructure} />
       </div>
-      
-      {/* Key Insights and Technical Requirements */}
+
       <KeyInsights insights={result.keyInsights} />
       <TechnicalRequirements requirements={result.technicalRequirements} />
     </div>

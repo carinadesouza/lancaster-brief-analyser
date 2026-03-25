@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 
@@ -16,7 +16,7 @@ export default function InputTabs({ tab, onTabChange }: InputTabsProps) {
         <button
           key={t}
           onClick={() => onTabChange(t)}
-          className={`flex-1 py-1.75 text-[12px] font-medium rounded-lg transition-colors ${
+          className={`flex-1 py-2 sm:py-1.75 text-[12px] font-medium rounded-lg transition-colors ${
             tab === t
               ? "bg-white text-[#111] shadow-[0_1px_3px_rgba(0,0,0,0.07)]"
               : "bg-transparent text-[#999]"

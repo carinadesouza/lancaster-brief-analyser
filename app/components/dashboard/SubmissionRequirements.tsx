@@ -21,25 +21,25 @@ export default function SubmissionRequirements({
 
   return (
     <Card title="Submission requirements">
-      <div className="grid grid-cols-1 sm:grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-2.5 py-1">
+      <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-2 py-1">
         {requirements.map((req, i) => {
           const { iconBg, iconColor, Icon } =
             SLOT_STYLES[i % SLOT_STYLES.length];
           return (
             <div
               key={i}
-              className="flex flex-col gap-2 p-[14px_16px] bg-white border border-[#e5e1da] rounded-xl"
+              className="flex flex-col gap-2 p-3 sm:p-[14px_16px] bg-white border border-[#e5e1da] rounded-xl"
             >
               <div
-                className={`w-7 h-7 rounded-lg flex items-center justify-center ${iconBg}`}
+                className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${iconBg}`}
               >
                 <Icon className={`w-3.5 h-3.5 ${iconColor}`} />
               </div>
-              <div>
-                <p className="text-[11px] font-bold text-[#aaa] uppercase tracking-[0.05em] mb-1">
+              <div className="min-w-0">
+                <p className="text-[11px] font-bold text-[#aaa] uppercase tracking-[0.05em] mb-1 truncate">
                   {req.label}
                 </p>
-                <p className="text-[13px] font-medium text-[#111] leading-snug">
+                <p className="text-[13px] font-medium text-[#111] leading-snug wrap-break-word">
                   {req.value}
                 </p>
               </div>
