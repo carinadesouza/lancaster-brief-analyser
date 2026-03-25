@@ -36,7 +36,7 @@ export default function RightPanelEmptyState() {
           (tag) => (
             <span
               key={tag}
-              className="text-[11px] px-3 py-1.25 bg-white border border-[#e8e5e0] rounded-full text-[#999]"
+              className="text-[11px] px-3 py-1.25 bg-white border border-[#e8e5e0] rounded-full text-[#000]"
             >
               {tag}
             </span>

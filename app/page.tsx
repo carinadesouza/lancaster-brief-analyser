@@ -52,7 +52,7 @@ export default function Home() {
 
           <p className="text-base sm:text-lg text-[#555656]/70 leading-relaxed mb-10">
             Paste or upload a project brief and get an instant AI-powered
-            breakdown — themes, risks, and next steps, all in one clear
+            breakdown of themes, risks, and next steps, all in one clear
             dashboard.
           </p>
 
