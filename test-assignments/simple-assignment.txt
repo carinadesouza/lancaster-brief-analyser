@@ -1,0 +1,40 @@
+Module: DATA401 – Advanced Data Analytics
+Lecturer: Dr. Sarah Mitchell
+Deadline: 30 April 2026
+
+Assignment Overview:
+You are required to analyse a real-world dataset and produce a comprehensive report that demonstrates your ability to apply data analysis techniques, interpret findings, and present insights effectively.
+
+Task 1: Data Preparation
+Clean the dataset, handle missing values, and perform necessary transformations.
+Subtasks:
+- Identify missing or inconsistent data
+- Apply appropriate data cleaning techniques
+- Document all preprocessing steps
+Deliverable: Cleaned dataset and preprocessing documentation
+
+Task 2: Exploratory Data Analysis
+Perform exploratory analysis to understand patterns and relationships in the dataset.
+Subtasks:
+- Generate summary statistics
+- Create visualisations (charts, graphs)
+- Identify key trends and anomalies
+Deliverable: EDA report with visualisations
+
+Task 3: Insight Generation and Reporting
+Develop meaningful insights and present them in a structured report.
+Subtasks:
+- Interpret analysis results
+- Provide actionable insights
+- Structure the final report
+Deliverable: Final report (2000–2500 words)
+
+Submission Requirements:
+- Format: PDF document
+- Word Limit: 2000–2500 words
+- Platform: Submit via university portal
+
+Marking Criteria:
+- Data Preparation (30%)
+- Analysis & Visualisation (40%)
+- Insights & Reporting (30%)

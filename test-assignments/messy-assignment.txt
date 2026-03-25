@@ -1,0 +1,38 @@
+Module Code: COMP701
+Module Name: Applied AI Systems
+
+deadline - 10 june 2026
+lecturer : Dr Alan Brooks
+
+assignment overview
+students must analyse a dataset + build simple ai based solution and explain results
+
+TASK 1 data cleaning (IMPORTANT)
+- clean dataset
+- remove nulls
+- fix errors
+deliverable cleaned csv file
+
+task 2 → analysis + model
+• basic analysis
+• build model (any type)
+• evaluate performance
+deliverables:
+- code
+- results
+
+Task 3 REPORT
+write report explaining everything
+word count approx 1500 words
+
+submission:
+pdf only
+upload on portal
+
+marking:
+cleaning 25%
+analysis 35%
+report 40%
+
+extra note:
+late submission may be penalised
