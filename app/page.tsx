@@ -6,38 +6,75 @@ import { Tab } from "./components/InputTabs";
 import SkeletonLoader from "./components/SkeletonLoader";
 import RightPanelEmptyState from "./components/RightPanelEmptyState";
 import ResultsDashboard, { AnalysisResult } from "./components/ResultLoader";
+
 export default function Home() {
   const [tab, setTab] = useState<Tab>("paste");
   const [text, setText] = useState("");
   const [fileName, setFileName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<any>(null);
-  useState<AnalysisResult | null>(null);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
+
+  // Unified text handler for Step 1 (both paste and file upload will use this)
+  const handleTextChange = (val: string) => {
+    setText(val);
+  };
+
+  // File Uploading
   const handleFileUpload = async (file: File) => {
     setFileName(file.name);
+
     const arrayBuffer = await file.arrayBuffer();
-
-    let pdfjsLib = await import("pdfjs-dist");;
-
+    const pdfjsLib = await import("pdfjs-dist");
     pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+
     let fullText = "";
     for (let i = 1; i <= pdf.numPages; i++) {
       const page = await pdf.getPage(i);
       const content = await page.getTextContent();
-      fullText +=
-        content.items
-          .map((item: unknown) => (item as { str: string }).str)
-          .join(" ") + "\n";
+      fullText += content.items.map((item: any) => item.str).join(" ") + "\n";
     }
-    setText(fullText);
+
+    handleTextChange(fullText); 
+    setResult(null);           
+  };
+
+  // Step 2: AI Analysis
+  const handleAnalyse = async () => {
+    if (!text.trim() || text.trim().length < 50) {
+      setError("Please paste your brief or upload a PDF first.");
+      return;
+    }
+
+    setError(null);
+    setIsLoading(true);
+    setResult(null); // reset previous result while running
+
+    try {
+      const res = await fetch("/api/analyse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
+
+      if (!res.ok) throw new Error("Request failed");
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      setResult(data);
+    } catch (err: any) {
+      setError(err.message || "Something went wrong.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleClearFile = () => {
     setFileName("");
     setText("");
     setResult(null);
+    setError(null);
   };
 
   const handleTabChange = (t: Tab) => {
@@ -48,42 +85,25 @@ export default function Home() {
     setError(null);
   };
 
-  const handleAnalyse = async () => {
-    if (!text.trim() || text.trim().length < 50) {
-      setError("Please paste your brief or upload a PDF first.");
-      return;
-    }
-    setError(null);
-    setIsLoading(true);
-    try {
-      const res = await fetch("/api/analyse", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text }),
-      });
-      if (!res.ok) throw new Error("Request failed");
-      const data = await res.json();
-      if (data.error) throw new Error(data.error);
-      setResult(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+
+  // Step state logic
+  const isStep1Complete = text.trim().length > 0;  // Step 1 when text exists
+  const isStep2Complete = isLoading || !!result;   // Step 2 green while AI is running
+  const isStep3Complete = !!result;               // Step 3  when result exists
+
+const stepsCompleted = [isStep1Complete, isStep2Complete, isStep3Complete];
 
   return (
     <div className="flex flex-col h-screen font-['DM_Sans',sans-serif] bg-[#f4f3f0]">
-      <Header />
+      <Header stepsCompleted={stepsCompleted} />
 
       <div className="flex flex-1 overflow-hidden">
         <LeftPanel
           tab={tab}
           onTabChange={handleTabChange}
           text={text}
-          onTextChange={setText}
+          onTextChange={handleTextChange}
           wordCount={wordCount}
           fileName={fileName}
           onFileUpload={handleFileUpload}
@@ -93,6 +113,7 @@ export default function Home() {
           error={error}
           onAnalyse={handleAnalyse}
         />
+
         <div className="flex-1 overflow-y-auto bg-[#f4f3f0]">
           {isLoading ? (
             <SkeletonLoader />

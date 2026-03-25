@@ -20,7 +20,7 @@ export default function KeyInsights({ insights }: { insights: AnalysisResult['ke
             <div key={i} className={`flex items-start gap-2.25 p-[10px_12px] ${s.bg} border ${s.border} rounded-[10px]`}>
               <div className={`w-1.75 h-1.75 rounded-full ${s.dot} shrink-0 mt-1`}/>
               <div>
-                <span className={`text-[9px] font-bold uppercase tracking-[0.06em] block mb-0.5 ${s.text.replace('text-', 'text- opacity-70')}`}>{insight.type}</span>
+                <span className={`text-[9px] text-black font-bold uppercase tracking-[0.06em] block mb-0.5 ${s.text.replace('text-', 'text- opacity-70')}`}>{insight.type}</span>
                 <p className={`text-[12px] leading-normal ${s.text}`}>{insight.text}</p>
               </div>
             </div>
