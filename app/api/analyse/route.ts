@@ -115,6 +115,20 @@ export async function POST(request: NextRequest) {
 
   } catch (error: any) {
     console.error('API error:', error)
+
+    // Detect rate limit error from Groq SDK
+    const isRateLimit =
+      error?.status === 429 ||
+      error?.error?.code === 'rate_limit_exceeded' ||
+      error?.message?.toLowerCase().includes('rate limit')
+
+    if (isRateLimit) {
+      return NextResponse.json(
+        { error: 'rate_limit_exceeded' },
+        { status: 429 }
+      )
+    }
+
     return NextResponse.json(
       { error: 'Analysis failed. Please try again.' },
       { status: 500 }
