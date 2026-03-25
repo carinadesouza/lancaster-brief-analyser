@@ -3,7 +3,7 @@
 import React from "react";
 import InputTabs, { Tab } from "./InputTabs";
 import Dropzone from "./Dropzone";
-
+import { AnalysisResult } from "./ResultLoader";
 
 interface LeftPanelProps {
   tab: Tab;
@@ -14,7 +14,7 @@ interface LeftPanelProps {
   fileName: string;
   onFileUpload: (f: File) => void;
   onClearFile: () => void;
-  result: any | null;
+  result: AnalysisResult | null;
   isLoading: boolean;
   error: string | null;
   onAnalyse: () => void;

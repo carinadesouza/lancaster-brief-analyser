@@ -5,6 +5,7 @@ import LeftPanel from "./components/LeftPanel";
 import { Tab } from "./components/InputTabs";
 import SkeletonLoader from "./components/SkeletonLoader";
 import RightPanelEmptyState from "./components/RightPanelEmptyState";
+import ResultsDashboard, { AnalysisResult } from "./components/ResultLoader";
 export default function Home() {
   const [tab, setTab] = useState<Tab>("paste");
   const [text, setText] = useState("");
@@ -12,7 +13,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<any>(null);
-
+  useState<AnalysisResult | null>(null);
   const handleFileUpload = async (file: File) => {
     setFileName(file.name);
     const arrayBuffer = await file.arrayBuffer();
@@ -92,15 +93,15 @@ export default function Home() {
           error={error}
           onAnalyse={handleAnalyse}
         />
-        {<div className="flex-1 overflow-y-auto bg-[#f4f3f0]">
+        <div className="flex-1 overflow-y-auto bg-[#f4f3f0]">
           {isLoading ? (
             <SkeletonLoader />
           ) : result ? (
-            <div>Result</div>
+            <ResultsDashboard result={result} />
           ) : (
             <RightPanelEmptyState />
           )}
-        </div> }
+        </div>
       </div>
     </div>
   );
