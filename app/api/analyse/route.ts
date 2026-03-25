@@ -7,6 +7,8 @@ const SYSTEM_PROMPT = `You are an expert academic analyst. A student will upload
 
 Your job is to produce a structured JSON output where EVERY field is derived directly from the assignment text. Never invent, assume, or add generic advice. If something is not in the document, do not include it.
 
+The output structure must be dynamic — only include sections that are actually relevant to THIS assignment.
+
 Return ONLY a valid JSON object with this structure:
 
 {
@@ -14,7 +16,7 @@ Return ONLY a valid JSON object with this structure:
   "author": "lecturer name if present, else null",
   "deadline": "exact deadline if mentioned, else null",
   "overview": "3-4 sentences describing exactly what this assignment asks the student to do — be specific to this document",
-
+  
   "tasks": [
     {
       "id": "Task 1",
@@ -54,8 +56,17 @@ Return ONLY a valid JSON object with this structure:
     }
   ],
 
-  "totalEstimatedHours": <sum of all task hours>,
+  "keyInsights": [
+    {
+      "type": "warning | tip | requirement | note",
+      "text": "specific insight derived directly from the assignment text"
+    }
+  ],
 
+  "technicalRequirements": ["only include if the assignment specifies tools, languages, datasets, platforms — else omit this field"],
+
+  "totalEstimatedHours": <sum of all task hours>,
+  
   "complexityScore": <1-10>,
   "complexityReason": "one sentence explaining the score based on the actual assignment content"
 }
@@ -65,6 +76,8 @@ RULES:
 - Tasks and subtasks must match the actual structure of the assignment — do not invent task names
 - If marking criteria percentages are not given, set weight to null
 - submissionRequirements should only include things explicitly stated (format, word count, platform, deadline, group size etc.)
+- keyInsights should highlight things students commonly miss or misunderstand — based on THIS document
+- technicalRequirements: only include if the assignment explicitly mentions tools, languages, software, datasets
 - estimatedHours must be a positive integer greater than 0 for every single task, never null or 0
 - totalEstimatedHours must equal the exact sum of all task estimatedHours values
 - Return ONLY valid JSON, no markdown fences, no explanation`
@@ -108,3 +121,4 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+
