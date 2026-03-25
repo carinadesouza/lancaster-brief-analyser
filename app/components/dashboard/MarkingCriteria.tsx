@@ -1,5 +1,5 @@
-import { AnalysisResult } from './ResultLoader'
-import { Card } from './Card'
+import { AnalysisResult } from '../ResultLoader'
+import { Card } from '../dashboard/Card'
 
 export default function MarkingCriteria({ criteria }: { criteria: AnalysisResult['markingCriteria'] }) {
   if (!criteria || criteria.length === 0) return null

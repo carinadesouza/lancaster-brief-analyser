@@ -1,5 +1,5 @@
-import { AnalysisResult } from './ResultLoader'
-import { Card } from './Card'
+import { AnalysisResult } from '../ResultLoader'
+import { Card } from '../dashboard/Card'
 
 export default function SuggestedStructure({ structure }: { structure: AnalysisResult['suggestedStructure'] }) {
   if (!structure || structure.length === 0) return null

@@ -1,7 +1,7 @@
 import Groq from 'groq-sdk'
 import { NextRequest, NextResponse } from 'next/server'
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
+export const runtime = "nodejs";
 
 const SYSTEM_PROMPT = `You are an expert academic analyst. A student will upload their assignment brief and you must read it carefully and extract EVERYTHING that is relevant for a student trying to complete it.
 
@@ -92,7 +92,8 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       )
     }
-
+    
+    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
     const response = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
       messages: [

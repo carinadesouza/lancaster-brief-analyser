@@ -1,10 +1,10 @@
-import HeaderBanner from "./HeaderBanner";
-import SubmissionRequirements from "./SubmissionRequirements";
-import TasksList from "./TasksList";
-import MarkingCriteria from "./MarkingCriteria";
-import SuggestedStructure from "./SuggestedStructure";
-import KeyInsights from "./KeyInsights";
-import TechnicalRequirements from "./TechnicalRequirements";
+import HeaderBanner from "./dashboard/HeaderBanner";
+import SubmissionRequirements from "./dashboard/SubmissionRequirements";
+import TasksList from "./dashboard/TasksList";
+import MarkingCriteria from "./dashboard/MarkingCriteria";
+import SuggestedStructure from "./dashboard/SuggestedStructure";
+import KeyInsights from "./dashboard/KeyInsights";
+import TechnicalRequirements from "./dashboard/TechnicalRequirements";
 
 export type AnalysisResult = {
   module: string;

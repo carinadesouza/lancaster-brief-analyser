@@ -1,4 +1,4 @@
-import { AnalysisResult } from './ResultLoader'
+import { AnalysisResult } from '../ResultLoader'
 
 export default function HeaderBanner({ result }: { result: AnalysisResult }) {
   const totalHours =

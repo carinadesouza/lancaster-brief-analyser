@@ -1,5 +1,5 @@
-import { AnalysisResult } from './ResultLoader'
-import { Card } from './Card'
+import { AnalysisResult } from '../ResultLoader'
+import { Card } from '../dashboard/Card'
 
 export default function TasksList({ tasks }: { tasks: AnalysisResult['tasks'] }) {
   if (!tasks || tasks.length === 0) return null

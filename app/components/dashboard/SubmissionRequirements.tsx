@@ -1,5 +1,5 @@
-import { AnalysisResult } from './ResultLoader'
-import { Card } from './Card'
+import { AnalysisResult } from '../ResultLoader'
+import { Card } from '../dashboard/Card'
 
 export default function SubmissionRequirements({ requirements }: { requirements: AnalysisResult['submissionRequirements'] }) {
   if (!requirements || requirements.length === 0) return null

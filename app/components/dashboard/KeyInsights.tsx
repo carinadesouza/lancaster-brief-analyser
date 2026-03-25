@@ -1,5 +1,5 @@
-import { AnalysisResult } from './ResultLoader'
-import { Card } from './Card'
+import { AnalysisResult } from '../ResultLoader'
+import { Card } from '../dashboard/Card'
 
 const insightStyles = {
   warning:     { bg: 'bg-[#fffbeb]', border: 'border-[#fde68a]', dot: 'bg-[#d97706]', text: 'text-[#92400e]' },
