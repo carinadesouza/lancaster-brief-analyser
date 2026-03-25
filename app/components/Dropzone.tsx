@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useRef, useState } from "react";
-
+import { CheckCircle, X } from "lucide-react";
 interface DropzoneProps {
   fileName: string;
   onFileUpload: (file: File) => void;
@@ -40,13 +40,16 @@ export default function Dropzone({
           <p className="text-[12px] font-medium text-[#111] overflow-hidden text-ellipsis whitespace-nowrap">
             {fileName}
           </p>
-          <p className="text-[11px] text-[#22c55e] mt-px">✓ Ready to analyse</p>
+          <div className="flex items-center gap-1 mt-px">
+            <CheckCircle className="w-3.5 h-3.5 text-[#22c55e]" />
+            <p className="text-[11px] text-[#22c55e]">Ready to analyse</p>
+          </div>
         </div>
         <button
           onClick={onClearFile}
-          className="text-[13px] text-[#ccc] bg-transparent border-none cursor-pointer hover:text-[#999] transition-colors"
+          className="flex items-center justify-center text-[#ccc] hover:text-[#999] transition-colors"
         >
-          ✕
+          <X className="w-4 h-4" />
         </button>
       </div>
     );
