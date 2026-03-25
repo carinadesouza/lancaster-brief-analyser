@@ -38,6 +38,22 @@ Return ONLY a valid JSON object with this structure:
     }
   ],
 
+  "markingCriteria": [
+    {
+      "name": "exact criterion name",
+      "weight": <percentage as number or null if not given>,
+      "description": "what this criterion assesses based on the document"
+    }
+  ],
+
+  "suggestedStructure": [
+    {
+      "section": "section title relevant to this assignment",
+      "purpose": "what this section should contain based on the assignment requirements",
+      "estimatedLength": "e.g. ~300 words or ~2 pages or null"
+    }
+  ],
+
   "totalEstimatedHours": <sum of all task hours>,
 
   "complexityScore": <1-10>,
@@ -47,10 +63,10 @@ Return ONLY a valid JSON object with this structure:
 RULES:
 - Every word in your output must be traceable back to the assignment document
 - Tasks and subtasks must match the actual structure of the assignment — do not invent task names
+- If marking criteria percentages are not given, set weight to null
 - submissionRequirements should only include things explicitly stated (format, word count, platform, deadline, group size etc.)
 - estimatedHours must be a positive integer greater than 0 for every single task, never null or 0
 - totalEstimatedHours must equal the exact sum of all task estimatedHours values
-- Return ONLY valid JSON, no markdown fences, no explanation
 - Return ONLY valid JSON, no markdown fences, no explanation`
 
 export async function POST(request: NextRequest) {
@@ -70,7 +86,7 @@ export async function POST(request: NextRequest) {
         { role: 'system', content: SYSTEM_PROMPT },
         {
           role: 'user',
-          content: `Read this assignment brief carefully and extract every task, requirement, and detail directly from the text. Your output must reflect exactly what is written — nothing more, nothing less.\n\nASSIGNMENT:\n\n${text}`
+          content: `Read this assignment brief carefully and extract every task, requirement, criterion, and detail directly from the text. Your output must reflect exactly what is written — nothing more, nothing less.\n\nASSIGNMENT:\n\n${text}`
         },
       ],
       temperature: 0.1,
