@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 interface HeaderProps {
   stepsCompleted?: boolean[];
 }
@@ -67,13 +68,11 @@ export default function Header({
               </div>
 
               {i < steps.length - 1 && (
-                <span
-                  className={`text-[11px] mx-2.5 transition-colors duration-300 ${
+                <ArrowRight
+                  className={`w-3 h-3 mx-2.5 transition-colors duration-300 ${
                     isCompleted ? "text-[#86efac]" : "text-[#ddd]"
                   }`}
-                >
-                  →
-                </span>
+                />
               )}
             </div>
           );

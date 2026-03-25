@@ -18,6 +18,7 @@ export default function Home() {
   // Unified text handler for (both paste and file upload will use this)
   const handleTextChange = (val: string) => {
     setText(val);
+    setResult(null);
   };
 
   // File Uploading
@@ -36,58 +37,60 @@ export default function Home() {
       fullText += content.items.map((item: any) => item.str).join(" ") + "\n";
     }
 
-    handleTextChange(fullText); 
-    setResult(null);           
+    setText(fullText);
+    setResult(null);
   };
 
   // AI Analysis
-    const handleAnalyse = async () => {
-      if (!text.trim() || text.trim().length < 50) {
-        setError("Please paste your brief or upload a PDF first.");
-        return;
-      }
-      setError(null);
-      setIsLoading(true);
-      try {
-        const res = await fetch("/api/analyse", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text }),
-        });
+  const handleAnalyse = async () => {
+    if (!text.trim() || text.trim().length < 50) {
+      setError("Please paste your brief or upload a PDF first.");
+      return;
+    }
 
-        if (res.status === 429 || res.status === 500) {
-          const data = await res.json().catch(() => ({}));
-          const isRateLimit =
-            data?.error?.includes("rate_limit_exceeded") ||
-            data?.error?.includes("Rate limit") ||
-            res.status === 429;
-          if (isRateLimit) {
-            setError(
-              "We've hit our AI usage limit for now. Please try again in about an hour — it resets automatically.",
-            );
-            return;
-          }
-        }
+    setError(null);
+    setIsLoading(true);
+    setResult(null);
 
-        if (!res.ok) throw new Error("Request failed");
-        const data = await res.json();
-        if (data.error) throw new Error(data.error);
-        setResult(data);
-      } catch (err) {
-        const msg =
-          err instanceof Error ? err.message : "Something went wrong.";
+    try {
+      const res = await fetch("/api/analyse", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text }),
+      });
 
-        if (msg.toLowerCase().includes("rate limit") || msg.includes("429")) {
+      if (res.status === 429 || res.status === 500) {
+        const data = await res.json().catch(() => ({}));
+        const isRateLimit =
+          data?.error?.includes("rate_limit_exceeded") ||
+          data?.error?.includes("Rate limit") ||
+          res.status === 429;
+        if (isRateLimit) {
           setError(
             "We've hit our AI usage limit for now. Please try again in about an hour — it resets automatically.",
           );
-        } else {
-          setError(msg);
+          return;
         }
-      } finally {
-        setIsLoading(false);
       }
-    };
+      if (!res.ok) throw new Error("Request failed");
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+
+      setResult(data);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Something went wrong.";
+
+      if (msg.toLowerCase().includes("rate limit") || msg.includes("429")) {
+        setError(
+          "We've hit our AI usage limit for now. Please try again in about an hour — it resets automatically.",
+        );
+      } else {
+        setError(msg);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleClearFile = () => {
     setFileName("");
